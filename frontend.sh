@@ -39,13 +39,19 @@ VALIDATE $? " enabling nginx "
 systemctl start nginx &>>$LOG_FILE_NAME
 VALIDATE $? " starting nginx "
 
+rm -rf /usr/share/nginx/html/* &>>$LOG_FILE_NAME
+VALIDATE $? " removing default code in nginx "
+
+curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip &>>$LOG_FILE_NAME
+VALIDATE $? " downloading frontend "
+
+cd /usr/share/nginx/html &>>$LOG_FILE_NAME
 rm -rf /usr/share/nginx/html/*
 
-curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
-
-cd /usr/share/nginx/html
-rm -rf /usr/share/nginx/html/*
-
-unzip /tmp/frontend.zip
+unzip /tmp/frontend.zip &>>$LOG_FILE_NAME
+VALIDATE $? " unziping the code "
 
 cp /home/ec2-user/expense-shell /etc/nginx/default.d/expense.conf &>>$LOG_FILE_NAME
+
+systemctl restart nginx &>>$LOG_FILE_NAME
+VALIDATE $? " restarting nginx "
