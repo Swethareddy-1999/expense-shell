@@ -31,7 +31,7 @@ echo "Script started excuting at: $TIMESTAMP" &>>$LOG_FILE_NAME
 CHECK_ROOT
 
 dnf module disable nodejs -y &>>$LOG_FILE_NAME
-VALIDATE $? "disbling nodejs"
+VALIDATE $? "disbling  existing default nodejs"
 
 dnf module enable nodejs:20 -y &>>$LOG_FILE_NAME
 VALIDATE $? "Enabling nodejs 20"
@@ -39,8 +39,14 @@ VALIDATE $? "Enabling nodejs 20"
 dnf install nodejs -y &>>$LOG_FILE_NAME
 VALIDATE $? "Installing nodejs"
 
-useradd expense &>>$LOG_FILE_NAME
-VALIDATE $? "adding expense user"
+id expense &>>$LOG_FILE_NAME
+if [$? -ne 0 ]
+then
+    useradd expense &>>$LOG_FILE_NAME
+    VALIDATE $? "adding expense user"
+else
+    echo "already expense user exist ... $y skipping"
+fi        
 
 mkdir /app &>>$LOG_FILE_NAME
 VALIDATE $? "creating app dir"
