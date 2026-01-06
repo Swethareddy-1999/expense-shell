@@ -40,12 +40,13 @@ systemctl start nginx &>>$LOG_FILE_NAME
 VALIDATE $? " starting nginx "
 
 rm -rf /usr/share/nginx/html/* &>>$LOG_FILE_NAME
-VALIDATE $? " removing default code in nginx "
+VALIDATE $? " removing existing code in webserver "
 
 curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip &>>$LOG_FILE_NAME
-VALIDATE $? " downloading frontend "
+VALIDATE $? " downloading frontend latest code "
 
-cd /usr/share/nginx/html &>>$LOG_FILE_NAME
+cd /usr/share/nginx/html 
+VALIDATE $? "changing to HTML directory"
 
 unzip /tmp/frontend.zip &>>$LOG_FILE_NAME
 VALIDATE $? " unziping the code "
