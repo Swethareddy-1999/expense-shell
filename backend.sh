@@ -40,7 +40,7 @@ dnf install nodejs -y &>>$LOG_FILE_NAME
 VALIDATE $? "Installing nodejs"
 
 id expense &>>$LOG_FILE_NAME
-if [$? -ne 0 ]
+if [ $? -ne 0 ]
 then
     useradd expense &>>$LOG_FILE_NAME
     VALIDATE $? "adding expense user"
@@ -48,8 +48,10 @@ else
     echo "already expense user exist ... $y skipping"
 fi        
 
-mkdir /app &>>$LOG_FILE_NAME
-VALIDATE $? "creating app dir"
+    mkdir -p /app &>>$LOG_FILE_NAME  # -p:if app dir already exist then it won't create again, if not will it create
+    VALIDATE $? "creating app dir"
+else
+    echo -e " already app dir exist ... $y skipping "   
 
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE_NAME
 VALIDATE $? "downloding backend"
