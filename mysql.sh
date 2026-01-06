@@ -43,4 +43,13 @@ systemctl start mysqld &>>$LOG_FILE_NAME
 VALIDATE $? "starting MYSQL server"
 
 mysql_secure_installation --set-root-pass ExpenseApp@1
-VALIDATE $? "setting root passwd"
+
+
+if [ $? -ne 0]
+then
+    echo "mysql root password not seup" &>>$LOG_FILE_NAME
+    mysql_secure_installation --set-root-pass ExpenseApp@1
+    VALIDATE $? "setting root passwd"
+else    
+    echo -e "mysql root password already setup ... $y Skipping "
+fi        
