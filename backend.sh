@@ -56,6 +56,8 @@ VALIDATE $? "downloding backend"
 
 cd /app
 VALIDATE $? "change dir to app"
+rm -rf /app/*
+
 
 unzip /tmp/backend.zip &>>$LOG_FILE_NAME
 VALIDATE $? "unzip backend"
@@ -77,7 +79,7 @@ VALIDATE $? " ssetting up transaction schema and tables"
 systemctl daemon-reload &>>$LOG_FILE_NAME
 VALIDATE $? " deamon reloding"
 
-systemctl start backend &>>$LOG_FILE_NAME
+systemctl restart backend &>>$LOG_FILE_NAME
 VALIDATE $? " starting backend"
 
 systemctl enable backend &>>$LOG_FILE_NAME
