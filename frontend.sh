@@ -33,11 +33,12 @@ CHECK_ROOT
 dnf install nginx -y &>>$LOG_FILE_NAME
 VALIDATE $? " installing nginx "
 
-systemctl start nginx &>>$LOG_FILE_NAME
-VALIDATE $? " starting nginx "
 
 systemctl enable nginx &>>$LOG_FILE_NAME
 VALIDATE $? " enabling nginx "
+
+systemctl start nginx &>>$LOG_FILE_NAME
+VALIDATE $? " starting nginx "
 
 rm -rf /usr/share/nginx/html/* &>>$LOG_FILE_NAME
 VALIDATE $? " removing existing code in webserver "
