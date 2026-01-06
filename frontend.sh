@@ -33,7 +33,7 @@ CHECK_ROOT
 dnf install nginx -y &>>$LOG_FILE_NAME
 VALIDATE $? " installing nginx "
 
-rm -f /etc/nginx/default.d/*.conf
+rm -rf /etc/nginx/default.d/*.conf
 VALIDATE $? " cleaning old nginx configs "
 
 systemctl enable nginx &>>$LOG_FILE_NAME
