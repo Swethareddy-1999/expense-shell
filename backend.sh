@@ -50,8 +50,6 @@ fi
 
     mkdir -p /app &>>$LOG_FILE_NAME  # -p:if app dir already exist then it won't create again, if not will it create
     VALIDATE $? "creating app dir"
-else
-    echo -e " already app dir exist ... $y skipping "   
 
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE_NAME
 VALIDATE $? "downloding backend"
